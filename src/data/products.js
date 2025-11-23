@@ -479,6 +479,126 @@ export const products = [
     stock: 2,
     rating: 4.7,
     reviews: 389
+  },
+  {
+    id: 41,
+    name: "Vintage Fountain Pen Set",
+    price: 92.50,
+    originalPrice: 149.99,
+    category: "Stationery",
+    image: "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?w=400",
+    description: "Classic fountain pen set with interchangeable nibs. Includes luxury velvet case and ink cartridges.",
+    stock: 1,
+    rating: 4.9,
+    reviews: 278
+  },
+  {
+    id: 42,
+    name: "Bamboo Desktop Organizer",
+    price: 38.99,
+    originalPrice: 64.99,
+    category: "Office Supplies",
+    image: "https://images.unsplash.com/photo-1595428773955-d8a934ecd8cd?w=400",
+    description: "Multi-compartment desktop organizer crafted from sustainable bamboo. Perfect for pens, papers, and small items.",
+    stock: 3,
+    rating: 4.5,
+    reviews: 445
+  },
+  {
+    id: 43,
+    name: "Japanese Tea Ceremony Set",
+    price: 118.00,
+    originalPrice: 189.99,
+    category: "Kitchen",
+    image: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400",
+    description: "Traditional matcha tea set with bamboo whisk, ceramic bowl, scoop, and tea caddy. Authentic Japanese craftsmanship.",
+    stock: 2,
+    rating: 4.8,
+    reviews: 167
+  },
+  {
+    id: 44,
+    name: "Magnetic Spice Jars (12 Pack)",
+    price: 42.75,
+    originalPrice: 69.99,
+    category: "Kitchen",
+    image: "https://images.unsplash.com/photo-1596040033229-a0b43c5e98f3?w=400",
+    description: "Space-saving magnetic spice containers with see-through lids. Stick to any metal surface for easy access.",
+    stock: 5,
+    rating: 4.6,
+    reviews: 892
+  },
+  {
+    id: 45,
+    name: "Leather Passport Holder",
+    price: 28.50,
+    originalPrice: 47.99,
+    category: "Travel",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
+    description: "Genuine leather passport cover with RFID blocking. Multiple card slots and travel document pockets.",
+    stock: 7,
+    rating: 4.4,
+    reviews: 634
+  },
+  {
+    id: 46,
+    name: "Crystal Singing Bowl",
+    price: 156.00,
+    originalPrice: 249.99,
+    category: "Wellness",
+    image: "https://images.unsplash.com/photo-1545289414-1c3cb1c06238?w=400",
+    description: "Frosted quartz crystal singing bowl for meditation and sound healing. Comes with rubber mallet and cushion.",
+    stock: 1,
+    rating: 4.9,
+    reviews: 89
+  },
+  {
+    id: 47,
+    name: "Adjustable Laptop Stand",
+    price: 54.99,
+    originalPrice: 89.99,
+    category: "Tech Accessories",
+    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400",
+    description: "Ergonomic aluminum laptop stand with 7 angle adjustments. Improves posture and increases airflow.",
+    stock: 4,
+    rating: 4.7,
+    reviews: 1203
+  },
+  {
+    id: 48,
+    name: "Artisan Bread Lame Tool",
+    price: 22.00,
+    originalPrice: 36.99,
+    category: "Kitchen",
+    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400",
+    description: "Professional bread scoring tool with replaceable stainless steel blades. Wooden handle for perfect grip.",
+    stock: 6,
+    rating: 4.5,
+    reviews: 312
+  },
+  {
+    id: 49,
+    name: "Wooden Beard Grooming Kit",
+    price: 47.25,
+    originalPrice: 78.99,
+    category: "Personal Care",
+    image: "https://images.unsplash.com/photo-1621607512214-68297480165e?w=400",
+    description: "Complete beard care set with boar bristle brush, sandalwood comb, scissors, and organic oils in gift box.",
+    stock: 3,
+    rating: 4.8,
+    reviews: 567
+  },
+  {
+    id: 50,
+    name: "Vintage Globe Bar Cart",
+    price: 186.50,
+    originalPrice: 299.99,
+    category: "Home Decor",
+    image: "https://images.unsplash.com/photo-1521127865937-84d2c497fee3?w=400",
+    description: "Decorative globe that opens to reveal hidden bar storage. Includes wheels for easy mobility. Conversation starter!",
+    stock: 1,
+    rating: 4.9,
+    reviews: 234
   }
 ];
 
