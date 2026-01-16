@@ -15,11 +15,21 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in from localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+      setLoading(false);
+      return;
     }
+
+    const guestUser = {
+      id: 'guest',
+      email: 'guest@paperline.test',
+      name: 'Guest',
+      joinedDate: new Date().toISOString()
+    };
+    setUser(guestUser);
+    localStorage.setItem('user', JSON.stringify(guestUser));
     setLoading(false);
   }, []);
 

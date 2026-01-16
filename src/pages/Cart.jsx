@@ -1,34 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
-import CountdownTimer from '../components/CountdownTimer';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [showAddOnModal, setShowAddOnModal] = useState(false);
+  const [modalCountdown, setModalCountdown] = useState(5);
+  const [userInteracted, setUserInteracted] = useState(false);
+  const [addOns, setAddOns] = useState({
+    engraving: true,
+    refillPack: true
+  });
 
   const subtotal = getCartTotal();
-  const shipping = subtotal > 50 ? 0 : 9.99;
-  const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
+
+  useEffect(() => {
+    if (!showAddOnModal || userInteracted) return;
+    setModalCountdown(5);
+    const interval = setInterval(() => {
+      setModalCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          navigate('/checkout');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [showAddOnModal, userInteracted, navigate]);
 
   const handleCheckout = () => {
-    if (!isAuthenticated) {
-      navigate('/login');
-      return;
-    }
+    setShowAddOnModal(true);
+    setUserInteracted(false);
+  };
+
+  const handleAddonChange = (key) => {
+    setAddOns((prev) => ({ ...prev, [key]: !prev[key] }));
+    setUserInteracted(true);
+  };
+
+  const handleProceedWithAddons = () => {
     navigate('/checkout');
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* DARK PATTERN: False urgency banner */}
-      <div className="bg-danger text-white py-3 text-center font-semibold animate-pulse">
-        ⚡ Items in your cart are selling fast! Complete checkout now! ⚡
-      </div>
-
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-gray-800 mb-8">Shopping Cart</h1>
 
@@ -50,26 +68,8 @@ const Cart = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-4">
-              {/* DARK PATTERN: Timer on cart */}
-              <div className="bg-yellow-50 border-l-4 border-accent p-4 rounded-lg mb-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-semibold text-gray-800">⏰ Reserved for you</p>
-                    <p className="text-sm text-gray-600">Items will be released if not purchased soon</p>
-                  </div>
-                  <CountdownTimer initialMinutes={12} label="Time left" />
-                </div>
-              </div>
-
               {cart.map((item) => (
                 <div key={item.id} className="bg-white rounded-lg shadow-md p-6 relative">
-                  {/* DARK PATTERN: Mark sneaked items subtly */}
-                  {item.sneaked && (
-                    <div className="absolute top-2 right-2 bg-accent text-xs px-2 py-1 rounded-full font-semibold">
-                      ⭐ Recommended
-                    </div>
-                  )}
-
                   <div className="flex gap-6">
                     <img
                       src={item.image}
@@ -85,13 +85,6 @@ const Cart = () => {
                       </Link>
                       <p className="text-sm text-gray-500 mt-1">{item.category}</p>
                       
-                      {/* DARK PATTERN: Show scarcity in cart */}
-                      {item.stock <= 3 && (
-                        <p className="text-sm text-danger font-semibold mt-2 animate-pulse">
-                          ⚠️ Only {item.stock} left in stock!
-                        </p>
-                      )}
-
                       <div className="flex items-center gap-4 mt-4">
                         {/* Quantity Selector */}
                         <div className="flex items-center border border-gray-300 rounded-lg">
@@ -143,79 +136,11 @@ const Cart = () => {
                     <span>Subtotal</span>
                     <span>${subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>Shipping</span>
-                    <span className={shipping === 0 ? 'text-green-600 font-semibold' : ''}>
-                      {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-gray-600">
-                    <span>Tax</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </div>
                   <div className="border-t pt-3">
                     <div className="flex justify-between text-xl font-bold text-gray-800">
-                      <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>Current Total</span>
+                      <span>${subtotal.toFixed(2)}</span>
                     </div>
-                  </div>
-                </div>
-
-                {/* DARK PATTERN: Misdirection - Pre-selected add-ons */}
-                <div className="border-t border-b py-4 mb-6 space-y-3">
-                  <label className="flex items-start gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary mt-1"
-                    />
-                    <div className="text-sm">
-                      <p className="font-semibold text-gray-800">Express Shipping (+$14.99)</p>
-                      <p className="text-gray-500">Get it by tomorrow</p>
-                    </div>
-                  </label>
-                  <label className="flex items-start gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary mt-1"
-                    />
-                    <div className="text-sm">
-                      <p className="font-semibold text-gray-800">Gift Wrapping (+$7.99)</p>
-                      <p className="text-gray-500">Beautiful premium packaging</p>
-                    </div>
-                  </label>
-                  <label className="flex items-start gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      defaultChecked
-                      className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary mt-1"
-                    />
-                    <div className="text-sm">
-                      <p className="font-semibold text-gray-800">Extended Warranty (+$19.99)</p>
-                      <p className="text-gray-500">3-year protection plan</p>
-                    </div>
-                  </label>
-                </div>
-
-                {subtotal < 50 && (
-                  <div className="bg-yellow-50 border border-accent rounded-lg p-3 mb-4 text-sm">
-                    <p className="font-semibold text-gray-800">
-                      🎁 Add ${(50 - subtotal).toFixed(2)} more for FREE shipping!
-                    </p>
-                  </div>
-                )}
-
-                {/* DARK PATTERN: Donation Shaming Preview */}
-                <div className="bg-green-50 border-2 border-green-400 rounded-lg p-4 mb-4">
-                  <p className="text-sm font-semibold text-gray-800 mb-2">
-                    ❤️ Support Children's Education
-                  </p>
-                  <p className="text-xs text-gray-600 mb-3">
-                    Add a small donation at checkout to help underprivileged children
-                  </p>
-                  <div className="text-xs text-gray-500">
-                    ✓ Available at checkout
                   </div>
                 </div>
 
@@ -233,17 +158,76 @@ const Cart = () => {
                   Continue Shopping
                 </Link>
 
-                {/* DARK PATTERN: Fake social proof */}
-                <div className="mt-6 pt-6 border-t">
-                  <p className="text-xs text-gray-600 text-center">
-                    🔥 {Math.floor(Math.random() * 50) + 20} people bought these items in the last hour
-                  </p>
-                </div>
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {showAddOnModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-strong w-full max-w-lg p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Add-ons for your order</h2>
+              {!userInteracted && (
+                <span className="text-xs text-gray-500">
+                  Continuing in {modalCountdown}s
+                </span>
+              )}
+            </div>
+
+            <p className="text-sm text-gray-600 mb-4">
+              Recommended additions for your stationery set
+            </p>
+
+            <div className="space-y-3 mb-6">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  id="task2-addon-engraving"
+                  type="checkbox"
+                  checked={addOns.engraving}
+                  onChange={() => handleAddonChange('engraving')}
+                  className="w-4 h-4 text-primary border-gray-300 rounded mt-1"
+                />
+                <div className="text-sm">
+                  <p className="font-semibold text-gray-800">Custom Engraving</p>
+                  <p className="text-gray-400 text-xs">+$6.00</p>
+                </div>
+              </label>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  id="task2-addon-refill"
+                  type="checkbox"
+                  checked={addOns.refillPack}
+                  onChange={() => handleAddonChange('refillPack')}
+                  className="w-4 h-4 text-primary border-gray-300 rounded mt-1"
+                />
+                <div className="text-sm">
+                  <p className="font-semibold text-gray-800">Refill Pack (12)</p>
+                  <p className="text-gray-400 text-xs">+$4.50</p>
+                </div>
+              </label>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                id="task2-continue-addons"
+                onClick={handleProceedWithAddons}
+                className="flex-1 bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary transition"
+              >
+                Continue with add-ons
+              </button>
+              <button
+                id="task2-update-addons"
+                onClick={() => setUserInteracted(true)}
+                className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition"
+              >
+                Update selections
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,15 +1,12 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
+  const user = {
+    name: 'Guest',
+    email: 'guest@paperline.test',
+    joinedDate: new Date().toISOString()
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -36,16 +33,19 @@ const Profile = () => {
                 </p>
               </div>
             </div>
-            <button className="mt-6 w-full bg-primary text-white py-2 rounded-lg hover:bg-secondary transition">
-              Edit Profile
-            </button>
+            <Link
+              to="/privacy-settings"
+              className="mt-6 block text-center w-full bg-primary text-white py-2 rounded-lg hover:bg-secondary transition"
+            >
+              Privacy Settings
+            </Link>
           </div>
 
           {/* Premium Membership */}
           <div className="bg-gradient-to-br from-accent to-yellow-500 rounded-lg shadow-md p-6 text-gray-800">
-            <h2 className="text-2xl font-bold mb-4">⭐ Premium Membership</h2>
+            <h2 className="text-2xl font-bold mb-4">⭐ Stationery Saver Club</h2>
             <p className="text-sm mb-4">
-              You're currently on our Premium plan
+              You're currently on our Saver plan
             </p>
             <div className="bg-white bg-opacity-50 rounded-lg p-4 mb-4">
               <p className="text-lg font-bold">$9.99/month</p>
@@ -72,12 +72,11 @@ const Profile = () => {
               </div>
             </div>
             
-            {/* DARK PATTERN: Make cancellation hard to find and scary */}
             <Link
               to="/cancel-membership"
               className="block text-center text-xs text-gray-700 hover:text-gray-900 underline"
             >
-              Cancel membership
+              Manage subscription
             </Link>
           </div>
 

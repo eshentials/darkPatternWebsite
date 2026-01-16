@@ -11,6 +11,9 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
 import CancelMembership from './pages/CancelMembership';
+import Subscription from './pages/Subscription';
+import PrivacySettings from './pages/PrivacySettings';
+import FinalConfirmation from './pages/FinalConfirmation';
 
 function App() {
   return (
@@ -26,8 +29,11 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/subscription" element={<Subscription />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/cancel-membership" element={<CancelMembership />} />
+              <Route path="/privacy-settings" element={<PrivacySettings />} />
+              <Route path="/final-confirmation" element={<FinalConfirmation />} />
             </Routes>
             
             {/* Footer */}
@@ -35,9 +41,9 @@ function App() {
               <div className="container mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                   <div>
-                    <h3 className="text-lg font-bold mb-4">QuickBuy</h3>
+                    <h3 className="text-lg font-bold mb-4">Paperline</h3>
                     <p className="text-sm text-gray-400">
-                      Your instant shopping partner for amazing deals and fast delivery.
+                      Everyday stationery for work, school, and home.
                     </p>
                   </div>
                   <div>
@@ -78,10 +84,7 @@ function App() {
                   </div>
                 </div>
                 <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-                  <p>&copy; 2024 QuickBuy. This is a research website for studying dark patterns. All rights reserved.</p>
-                  <p className="mt-2 text-xs">
-                    Research Project: Understanding Dark Patterns in E-commerce
-                  </p>
+                  <p>&copy; 2024 Paperline. All rights reserved.</p>
                 </div>
               </div>
             </footer>

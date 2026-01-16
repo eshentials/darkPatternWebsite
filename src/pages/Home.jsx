@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import CountdownTimer from '../components/CountdownTimer';
 import { products } from '../data/products';
 
 const Home = () => {
@@ -26,29 +25,20 @@ const Home = () => {
 
         <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6 animate-fade-in">
-              <span className="w-2 h-2 bg-accent-400 rounded-full animate-pulse"></span>
-              <span className="text-sm font-semibold">Limited Time Mega Sale</span>
-            </div>
-
             <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight animate-slide-up">
-              Shop Your <span className="text-accent-400">Favorites</span>
+              Stock Your <span className="text-accent-400">Desk</span>
               <br />
-              At Unbeatable Prices! 🎉
+              With Stationery Essentials
             </h1>
             
             <p className="text-xl md:text-2xl mb-8 text-white/90 animate-slide-up">
-              Up to <span className="text-3xl font-bold text-accent-400">70% OFF</span> on 1000+ Products
+              Pens, notebooks, and tools for every workspace
             </p>
             
-            {/* DARK PATTERN: False Urgency */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 animate-slide-up">
-              <CountdownTimer initialMinutes={45} label="Sale ends in" />
-              <div className="hidden sm:block w-px h-8 bg-white/30"></div>
               <div className="text-sm">
-                <div className="font-bold text-lg">{Math.floor(Math.random() * 5000) + 10000}+</div>
-                <div className="text-white/80">Orders Today</div>
+                <div className="font-bold text-lg">Stationery staples for every desk</div>
+                <div className="text-white/80">Pens, paper, and organizers</div>
               </div>
             </div>
 
@@ -102,7 +92,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Flash Sale Section */}
+      {/* Featured Section */}
       <section className="py-12 bg-gradient-to-b from-white to-orange-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
@@ -111,13 +101,10 @@ const Home = () => {
               <div>
                 <h2 className="text-3xl font-extrabold text-gray-900 flex items-center gap-2">
                   <span className="text-danger-500">⚡</span>
-                  Flash Sale
+                  Featured Picks
                 </h2>
-                <p className="text-gray-600 mt-1">Limited stock - Grab them before they're gone!</p>
+                <p className="text-gray-600 mt-1">Handpicked stationery essentials</p>
               </div>
-            </div>
-            <div className="hidden md:block">
-              <CountdownTimer initialMinutes={30} label="Ends in" />
             </div>
           </div>
 
@@ -132,7 +119,7 @@ const Home = () => {
               to="/products"
               className="inline-flex items-center gap-2 bg-danger-500 hover:bg-danger-600 text-white px-8 py-3 rounded-lg font-semibold transition-all shadow-medium hover:shadow-strong"
             >
-              View All Flash Deals
+              View All Picks
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
@@ -140,11 +127,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* Fake Notifications - DARK PATTERN */}
-      <div className="fixed bottom-4 left-4 z-40">
-        <FakeNotifications />
-      </div>
 
       {/* Categories Grid */}
       <section className="py-12 bg-white">
@@ -156,12 +138,12 @@ const Home = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { name: 'Kitchen', icon: '🍳', color: 'from-orange-400 to-red-500' },
-              { name: 'Crafts', icon: '🎨', color: 'from-purple-400 to-pink-500' },
-              { name: 'Home Decor', icon: '🏠', color: 'from-blue-400 to-cyan-500' },
-              { name: 'Outdoor', icon: '🏕️', color: 'from-green-400 to-emerald-500' },
-              { name: 'Wellness', icon: '🧘', color: 'from-indigo-400 to-purple-500' },
-              { name: 'Office', icon: '📝', color: 'from-yellow-400 to-orange-500' }
+              { name: 'Notebooks', icon: '📓', color: 'from-orange-400 to-red-500' },
+              { name: 'Writing', icon: '✏️', color: 'from-purple-400 to-pink-500' },
+              { name: 'Desk Accessories', icon: '🖥️', color: 'from-blue-400 to-cyan-500' },
+              { name: 'Paper', icon: '📄', color: 'from-green-400 to-emerald-500' },
+              { name: 'Art Supplies', icon: '🎨', color: 'from-indigo-400 to-purple-500' },
+              { name: 'Office Supplies', icon: '📎', color: 'from-yellow-400 to-orange-500' }
             ].map((cat, index) => (
               <Link
                 key={index}
@@ -310,71 +292,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
-};
-
-// DARK PATTERN: Fake purchase notifications
-const FakeNotifications = () => {
-  const [notifications, setNotifications] = React.useState([]);
-
-  useEffect(() => {
-    const names = ['Sarah M.', 'John D.', 'Emma W.', 'Michael R.', 'Lisa K.', 'David P.', 'Jennifer L.', 'Robert S.'];
-    const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Miami'];
-    
-    const showRandomNotification = () => {
-      const randomProduct = products[Math.floor(Math.random() * products.length)];
-      const randomName = names[Math.floor(Math.random() * names.length)];
-      const randomCity = cities[Math.floor(Math.random() * cities.length)];
-      
-      const notification = {
-        id: Date.now(),
-        name: randomName,
-        city: randomCity,
-        product: randomProduct.name,
-        time: 'Just now'
-      };
-
-      setNotifications(prev => [notification, ...prev].slice(0, 1));
-
-      setTimeout(() => {
-        setNotifications(prev => prev.filter(n => n.id !== notification.id));
-      }, 5000);
-    };
-
-    // Show notification every 10-15 seconds
-    const interval = setInterval(() => {
-      showRandomNotification();
-    }, Math.random() * 5000 + 10000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="space-y-2">
-      {notifications.map(notification => (
-        <div
-          key={notification.id}
-          className="bg-white border-l-4 border-green-500 shadow-strong rounded-lg p-4 max-w-sm animate-slide-up"
-        >
-          <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-              <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-gray-800">
-                {notification.name} from {notification.city}
-              </p>
-              <p className="text-xs text-gray-600 mt-1">
-                Purchased "{notification.product.substring(0, 30)}..."
-              </p>
-              <p className="text-xs text-gray-400 mt-1">{notification.time}</p>
-            </div>
-          </div>
-        </div>
-      ))}
     </div>
   );
 };

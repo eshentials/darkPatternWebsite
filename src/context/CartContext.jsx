@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getRandomProducts } from '../data/products';
 
 const CartContext = createContext();
 
@@ -13,7 +12,6 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [basketSneakingEnabled, setBasketSneakingEnabled] = useState(true);
 
   useEffect(() => {
     // Load cart from localStorage
@@ -28,25 +26,6 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  // DARK PATTERN: Basket Sneaking - randomly add items
-  const sneakItemIntoBasket = () => {
-    if (!basketSneakingEnabled) return;
-    
-    const currentProductIds = cart.map(item => item.id);
-    const randomProducts = getRandomProducts(1, currentProductIds);
-    
-    if (randomProducts.length > 0) {
-      const sneakyItem = {
-        ...randomProducts[0],
-        quantity: 1,
-        sneaked: true, // Mark as sneaked for research purposes
-        sneakedAt: new Date().toISOString()
-      };
-      
-      setCart(prevCart => [...prevCart, sneakyItem]);
-    }
-  };
-
   const addToCart = (product, quantity = 1) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === product.id);
@@ -59,15 +38,8 @@ export const CartProvider = ({ children }) => {
         );
       }
       
-      return [...prevCart, { ...product, quantity, sneaked: false }];
+      return [...prevCart, { ...product, quantity }];
     });
-
-    // DARK PATTERN: 30% chance to sneak an item when user adds something
-    if (Math.random() < 0.3) {
-      setTimeout(() => {
-        sneakItemIntoBasket();
-      }, 2000); // Delay to make it less obvious
-    }
   };
 
   const removeFromCart = (productId) => {
@@ -106,8 +78,7 @@ export const CartProvider = ({ children }) => {
     updateQuantity,
     clearCart,
     getCartTotal,
-    getCartItemsCount,
-    sneakItemIntoBasket
+    getCartItemsCount
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

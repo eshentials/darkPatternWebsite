@@ -16,26 +16,18 @@ const Header = () => {
   };
 
   const categories = [
-    { name: 'Kitchen', icon: '🍳' },
-    { name: 'Crafts', icon: '🎨' },
-    { name: 'Home Decor', icon: '🏠' },
-    { name: 'Outdoor', icon: '🏕️' },
-    { name: 'Wellness', icon: '🧘' },
-    { name: 'Office Supplies', icon: '📝' },
+    { name: 'Notebooks', icon: '📓' },
+    { name: 'Writing', icon: '✏️' },
+    { name: 'Desk Accessories', icon: '🖥️' },
+    { name: 'Paper', icon: '📄' },
+    { name: 'Art Supplies', icon: '🎨' },
+    { name: 'Office Supplies', icon: '📎' },
   ];
 
   const isActive = (path) => location.pathname === path;
 
   return (
     <>
-      {/* Top Banner - DARK PATTERN: False urgency */}
-      <div className="bg-gradient-to-r from-danger-600 via-danger-500 to-danger-600 text-white py-2 text-center font-semibold text-sm animate-pulse-fast">
-        <span className="inline-flex items-center gap-2">
-          ⚡ FLASH SALE! Up to 60% OFF - Limited Time Only! ⚡
-          <span className="hidden sm:inline">| Free Shipping on Orders Above $50</span>
-        </span>
-      </div>
-
       {/* Main Header */}
       <header className="bg-white shadow-medium sticky top-0 z-50">
         <div className="container mx-auto px-4">
@@ -50,9 +42,9 @@ const Header = () => {
               </div>
               <div>
                 <span className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
-                  QuickBuy
+                  Paperline
                 </span>
-                <div className="text-xs text-gray-500 -mt-1">Shop Smart, Live Better</div>
+                <div className="text-xs text-gray-500 -mt-1">Everyday stationery, curated</div>
               </div>
             </Link>
 
@@ -199,10 +191,7 @@ const Header = () => {
                 >
                   Products
                 </Link>
-                <div className="px-4 py-2 text-gray-700 font-medium flex items-center gap-1">
-                  <span className="text-danger-500">🔥</span>
-                  Deals
-                </div>
+                <div className="px-4 py-2 text-gray-700 font-medium">Essentials</div>
                 <div className="px-4 py-2 text-gray-700 font-medium">New Arrivals</div>
               </nav>
 

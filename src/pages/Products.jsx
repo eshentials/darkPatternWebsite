@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
 import { products, getCategories } from '../data/products';
-import CountdownTimer from '../components/CountdownTimer';
 
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -39,16 +38,6 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* DARK PATTERN: Persistent urgency banner */}
-      <div className="bg-gradient-to-r from-danger to-primary text-white py-4 sticky top-0 z-40">
-        <div className="container mx-auto px-4 flex items-center justify-between">
-          <div className="font-semibold">
-            ⚡ FLASH SALE ACTIVE - Up to 70% OFF!
-          </div>
-          <CountdownTimer initialMinutes={25} label="Hurry" />
-        </div>
-      </div>
-
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -98,23 +87,6 @@ const Products = () => {
                 <option value="price-high">Price: High to Low</option>
                 <option value="discount">Biggest Discount</option>
               </select>
-            </div>
-          </div>
-        </div>
-
-        {/* DARK PATTERN: Fake urgency message */}
-        <div className="bg-yellow-50 border-l-4 border-accent p-4 mb-6 rounded-lg">
-          <div className="flex items-center gap-3">
-            <svg className="w-6 h-6 text-accent flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-            </svg>
-            <div>
-              <p className="font-semibold text-gray-800">
-                🔥 {Math.floor(Math.random() * 1000) + 500} people are viewing these products right now!
-              </p>
-              <p className="text-sm text-gray-600">
-                Prices may increase soon due to high demand
-              </p>
             </div>
           </div>
         </div>

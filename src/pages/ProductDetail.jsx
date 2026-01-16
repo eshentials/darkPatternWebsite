@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
-import ScarcityBadge from '../components/ScarcityBadge';
-import CountdownTimer from '../components/CountdownTimer';
 import ProductCard from '../components/ProductCard';
 
 const ProductDetail = () => {
@@ -42,11 +40,6 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* DARK PATTERN: Urgent banner */}
-      <div className="bg-danger text-white py-3 text-center font-semibold animate-pulse">
-        ⚡ LIMITED TIME OFFER - Order within the next hour to get this price! ⚡
-      </div>
-
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <div className="mb-6 text-sm">
@@ -97,11 +90,6 @@ const ProductDetail = () => {
               <span className="text-gray-600">{product.rating} ({product.reviews} reviews)</span>
             </div>
 
-            {/* DARK PATTERN: Scarcity */}
-            <div className="mb-6">
-              <ScarcityBadge stock={product.stock} />
-            </div>
-
             {/* Price */}
             <div className="mb-6">
               <div className="flex items-center gap-4">
@@ -111,21 +99,6 @@ const ProductDetail = () => {
                   <span className="text-sm text-green-600 font-semibold">Save ${(product.originalPrice - product.price).toFixed(2)}</span>
                 </div>
               </div>
-            </div>
-
-            {/* DARK PATTERN: False Urgency Timer */}
-            <div className="mb-6">
-              <CountdownTimer initialMinutes={18} label="Special price expires in" />
-            </div>
-
-            {/* DARK PATTERN: Fake social proof */}
-            <div className="bg-yellow-50 border-l-4 border-accent p-4 mb-6 rounded-lg">
-              <p className="text-sm font-semibold text-gray-800">
-                🔥 {Math.floor(Math.random() * 200) + 50} people have this in their cart right now!
-              </p>
-              <p className="text-xs text-gray-600 mt-1">
-                {Math.floor(Math.random() * 30) + 10} sold in the last 24 hours
-              </p>
             </div>
 
             {/* Quantity Selector */}
@@ -164,25 +137,6 @@ const ProductDetail = () => {
             >
               {showAdded ? '✓ Added to Cart!' : 'Add to Cart'}
             </button>
-
-            {/* DARK PATTERN: Misdirection - Insurance option prominently displayed */}
-            <div className="border-2 border-accent bg-yellow-50 p-4 rounded-lg mb-6">
-              <label className="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="w-5 h-5 text-primary border-gray-300 rounded focus:ring-primary mt-1"
-                />
-                <div>
-                  <p className="font-semibold text-gray-800">
-                    🛡️ Add Product Protection Plan - Only $9.99!
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Protect your purchase with our comprehensive 2-year warranty
-                  </p>
-                </div>
-              </label>
-            </div>
 
             {/* Description */}
             <div className="border-t pt-6">
