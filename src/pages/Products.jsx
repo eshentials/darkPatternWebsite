@@ -1,12 +1,17 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
 import { products, getCategories } from '../data/products';
+import { logTaskStart } from '../utils/dpriLogger';
 
 const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('featured');
   
   const categories = ['All', ...getCategories()];
+
+  useEffect(() => {
+    logTaskStart('T1', 'task1-start');
+  }, []);
 
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = selectedCategory === 'All' 
@@ -37,7 +42,7 @@ const Products = () => {
   }, [selectedCategory, sortBy]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50" data-task-id="T1" data-task-start="true" id="task1-start">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

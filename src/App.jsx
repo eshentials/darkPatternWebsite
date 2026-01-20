@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ExperimentProvider } from './context/ExperimentContext';
@@ -14,14 +14,33 @@ import CancelMembership from './pages/CancelMembership';
 import Subscription from './pages/Subscription';
 import PrivacySettings from './pages/PrivacySettings';
 import FinalConfirmation from './pages/FinalConfirmation';
+import { initDpriLogger, logEvent } from './utils/dpriLogger';
+
+const PageLogger = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    logEvent({
+      eventType: 'page_load',
+      elementId: location.pathname
+    });
+  }, [location.pathname]);
+
+  return null;
+};
 
 function App() {
+  useEffect(() => {
+    initDpriLogger();
+  }, []);
+
   return (
     <Router>
       <AuthProvider>
         <CartProvider>
           <ExperimentProvider>
             <div className="min-h-screen bg-gray-50">
+              <PageLogger />
               <Header />
               <Routes>
                 <Route path="/" element={<Home />} />

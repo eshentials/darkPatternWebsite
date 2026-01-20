@@ -121,6 +121,8 @@ const ProductCard = ({ product }) => {
 
           <div
             id={isPremiumPenSet ? 'task1-urgency-timer' : undefined}
+            data-task-id={isPremiumPenSet ? 'T1' : undefined}
+            data-aoi-type={isPremiumPenSet ? 'deceptive' : 'neutral'}
             className="mb-3 bg-yellow-50 border border-accent rounded-lg px-3 py-2 text-xs font-semibold text-gray-800"
           >
             Offer expires in {String(Math.floor(taskTimer / 60)).padStart(2, '0')}:
@@ -136,8 +138,15 @@ const ProductCard = ({ product }) => {
           </div>
 
           <div className="mt-auto">
+            <div data-intervention-slot="pre-decision" data-task-id={isPremiumPenSet ? 'T1' : undefined}></div>
             <button
               id={isPremiumPenSet ? 'task1-buy-now' : undefined}
+              data-task-id={isPremiumPenSet ? 'T1' : undefined}
+              data-decision-role={isPremiumPenSet ? 'final' : undefined}
+              data-task-end={isPremiumPenSet ? 'true' : undefined}
+              data-outcome-type={isPremiumPenSet ? 'manipulative' : undefined}
+              data-aoi-type={isPremiumPenSet ? 'deceptive' : 'neutral'}
+              data-aoi-static="true"
               onClick={isPremiumPenSet ? handleBuyNow : handleAddToCart}
               className={`w-full font-bold rounded-lg transition-all transform hover:scale-105 ${
                 isPremiumPenSet
@@ -149,11 +158,18 @@ const ProductCard = ({ product }) => {
             </button>
             <Link
               id={isPremiumPenSet ? 'task1-view-details' : undefined}
+              data-task-id={isPremiumPenSet ? 'T1' : undefined}
+              data-decision-role={isPremiumPenSet ? 'final' : undefined}
+              data-task-end={isPremiumPenSet ? 'true' : undefined}
+              data-outcome-type={isPremiumPenSet ? 'resistant' : undefined}
+              data-aoi-type={isPremiumPenSet ? 'honest' : 'neutral'}
+              data-aoi-static="true"
               to={`/product/${product.id}`}
               className="mt-2 block text-center text-xs text-gray-400 hover:text-gray-500"
             >
               View details
             </Link>
+            <div data-intervention-slot="post-decision" data-task-id={isPremiumPenSet ? 'T1' : undefined}></div>
           </div>
         </div>
       </div>

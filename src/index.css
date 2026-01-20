@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+[data-aoi-static="true"] {
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-intervention-slot] {
+  display: none;
+}
+
 @layer base {
   * {
     @apply box-border;

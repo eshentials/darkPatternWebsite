@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useExperiment } from '../context/ExperimentContext';
+import { logTaskStart } from '../utils/dpriLogger';
 
 const PrivacySettings = () => {
   const navigate = useNavigate();
@@ -35,6 +36,10 @@ const PrivacySettings = () => {
     return () => clearInterval(interval);
   }, [allOn]);
 
+  useEffect(() => {
+    logTaskStart('T5', 'task5-start');
+  }, []);
+
   const updateToggle = (key) => {
     setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
   };
@@ -42,7 +47,7 @@ const PrivacySettings = () => {
   const isContinueDisabled = !allOn && cooldown > 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8" data-task-id="T5" data-task-start="true" id="task5-start">
       <div className="container mx-auto px-4 max-w-3xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Account & Privacy Settings</h1>
 
@@ -62,6 +67,9 @@ const PrivacySettings = () => {
               checked={toggles.experience}
               onChange={() => updateToggle('experience')}
               className="w-5 h-5 text-primary"
+              data-task-id="T5"
+              data-aoi-type="deceptive"
+              data-aoi-static="true"
             />
           </label>
 
@@ -76,6 +84,9 @@ const PrivacySettings = () => {
               checked={toggles.personalization}
               onChange={() => updateToggle('personalization')}
               className="w-5 h-5 text-primary"
+              data-task-id="T5"
+              data-aoi-type="deceptive"
+              data-aoi-static="true"
             />
           </label>
 
@@ -90,6 +101,9 @@ const PrivacySettings = () => {
               checked={toggles.insights}
               onChange={() => updateToggle('insights')}
               className="w-5 h-5 text-primary"
+              data-task-id="T5"
+              data-aoi-type="deceptive"
+              data-aoi-static="true"
             />
           </label>
 
@@ -104,10 +118,14 @@ const PrivacySettings = () => {
               checked={toggles.partners}
               onChange={() => updateToggle('partners')}
               className="w-5 h-5 text-primary"
+              data-task-id="T5"
+              data-aoi-type="deceptive"
+              data-aoi-static="true"
             />
           </label>
 
           <div className="pt-4 border-t">
+            <div data-intervention-slot="pre-decision" data-task-id="T5"></div>
             <button
               id="task5-continue"
               onClick={() => {
@@ -120,9 +138,16 @@ const PrivacySettings = () => {
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   : 'bg-primary text-white hover:bg-secondary'
               }`}
+              data-task-id="T5"
+              data-decision-role="final"
+              data-task-end="true"
+              data-outcome-type={allOn ? 'manipulative' : 'resistant'}
+              data-aoi-type={allOn ? 'deceptive' : 'honest'}
+              data-aoi-static="true"
             >
               Continue{!allOn && cooldown > 0 ? ` (${cooldown}s)` : ''}
             </button>
+            <div data-intervention-slot="post-decision" data-task-id="T5"></div>
           </div>
         </div>
       </div>

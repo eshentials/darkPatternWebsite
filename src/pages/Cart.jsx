@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useExperiment } from '../context/ExperimentContext';
+import { logTaskStart } from '../utils/dpriLogger';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
@@ -19,6 +20,7 @@ const Cart = () => {
 
   useEffect(() => {
     if (!showAddOnModal || userInteracted) return;
+    logTaskStart('T2', 'task2-modal');
     setModalCountdown(5);
     const interval = setInterval(() => {
       setModalCountdown((prev) => {
@@ -110,6 +112,11 @@ const Cart = () => {
                         {/* Remove Button */}
                         <button
                           id={item.name === 'Premium Pen Set' ? 'task1-remove-item' : undefined}
+                          data-task-id={item.name === 'Premium Pen Set' ? 'T1' : undefined}
+                          data-recovery={item.name === 'Premium Pen Set' ? 'true' : undefined}
+                          data-recovery-from={item.name === 'Premium Pen Set' ? 'manipulative' : undefined}
+                          data-aoi-type={item.name === 'Premium Pen Set' ? 'honest' : 'neutral'}
+                          data-aoi-static="true"
                           onClick={() => removeFromCart(item.id)}
                           className="text-danger hover:text-red-700 font-medium text-sm"
                         >
@@ -171,7 +178,12 @@ const Cart = () => {
 
       {showAddOnModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-strong w-full max-w-lg p-6">
+          <div
+            className="bg-white rounded-xl shadow-strong w-full max-w-lg p-6"
+            id="task2-modal"
+            data-task-id="T2"
+            data-task-start="true"
+          >
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-gray-800">Add-ons for your order</h2>
               {!userInteracted && (
@@ -193,6 +205,9 @@ const Cart = () => {
                   checked={addOns.engraving}
                   onChange={() => handleAddonChange('engraving')}
                   className="w-4 h-4 text-primary border-gray-300 rounded mt-1"
+                  data-task-id="T2"
+                  data-aoi-type="deceptive"
+                  data-aoi-static="true"
                 />
                 <div className="text-sm">
                   <p className="font-semibold text-gray-800">Custom Engraving</p>
@@ -206,6 +221,9 @@ const Cart = () => {
                   checked={addOns.refillPack}
                   onChange={() => handleAddonChange('refillPack')}
                   className="w-4 h-4 text-primary border-gray-300 rounded mt-1"
+                  data-task-id="T2"
+                  data-aoi-type="deceptive"
+                  data-aoi-static="true"
                 />
                 <div className="text-sm">
                   <p className="font-semibold text-gray-800">Refill Pack (12)</p>
@@ -215,10 +233,17 @@ const Cart = () => {
             </div>
 
             <div className="flex gap-3">
+              <div data-intervention-slot="pre-decision" data-task-id="T2"></div>
               <button
                 id="task2-continue-addons"
                 onClick={handleProceedWithAddons}
                 className="flex-1 bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary transition"
+                data-task-id="T2"
+                data-decision-role="final"
+                data-task-end="true"
+                data-outcome-type={addOns.engraving || addOns.refillPack ? 'manipulative' : 'resistant'}
+                data-aoi-type="deceptive"
+                data-aoi-static="true"
               >
                 Continue with add-ons
               </button>
@@ -226,9 +251,13 @@ const Cart = () => {
                 id="task2-update-addons"
                 onClick={() => setUserInteracted(true)}
                 className="flex-1 border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition"
+                data-task-id="T2"
+                data-aoi-type="honest"
+                data-aoi-static="true"
               >
                 Update selections
               </button>
+              <div data-intervention-slot="post-decision" data-task-id="T2"></div>
             </div>
           </div>
         </div>

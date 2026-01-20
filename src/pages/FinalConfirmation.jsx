@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useExperiment } from '../context/ExperimentContext';
+import { logTaskStart } from '../utils/dpriLogger';
 
 const FinalConfirmation = () => {
   const navigate = useNavigate();
@@ -26,13 +27,17 @@ const FinalConfirmation = () => {
     return () => window.removeEventListener('mouseout', handleMouseOut);
   }, []);
 
+  useEffect(() => {
+    logTaskStart('T6', 'task6-start');
+  }, []);
+
   const handleConfirm = () => {
     clearCart();
     navigate('/');
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8" data-task-id="T6" data-task-start="true" id="task6-start">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="bg-white rounded-lg shadow-md p-6 relative">
           <button
@@ -40,6 +45,9 @@ const FinalConfirmation = () => {
             onClick={() => setShowExitModal(true)}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
             aria-label="Close"
+            data-task-id="T6"
+            data-aoi-type="deceptive"
+            data-aoi-static="true"
           >
             ×
           </button>
@@ -96,13 +104,21 @@ const FinalConfirmation = () => {
                 </div>
               </div>
 
+              <div data-intervention-slot="pre-decision" data-task-id="T6"></div>
               <button
                 id="task6-confirm-order"
                 onClick={handleConfirm}
                 className="mt-6 w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary transition"
+                data-task-id="T6"
+                data-decision-role="final"
+                data-task-end="true"
+                data-outcome-type="manipulative"
+                data-aoi-type="deceptive"
+                data-aoi-static="true"
               >
                 Confirm Order
               </button>
+              <div data-intervention-slot="post-decision" data-task-id="T6"></div>
             </div>
           </div>
         </div>
@@ -120,6 +136,9 @@ const FinalConfirmation = () => {
                 id="task6-stay"
                 onClick={() => setShowExitModal(false)}
                 className="flex-1 bg-primary text-white py-2 rounded-lg font-semibold hover:bg-secondary transition"
+                data-task-id="T6"
+                data-aoi-type="deceptive"
+                data-aoi-static="true"
               >
                 Keep my order
               </button>
@@ -127,6 +146,14 @@ const FinalConfirmation = () => {
                 id="task6-review-breakdown"
                 onClick={() => setShowExitModal(false)}
                 className="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition"
+                data-task-id="T6"
+                data-decision-role="final"
+                data-task-end="true"
+                data-outcome-type="resistant"
+                data-recovery="true"
+                data-recovery-from="manipulative"
+                data-aoi-type="honest"
+                data-aoi-static="true"
               >
                 Review breakdown
               </button>
