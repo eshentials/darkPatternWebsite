@@ -28,12 +28,11 @@ const ProductCard = ({ product }) => {
   const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
 
   React.useEffect(() => {
-    if (!isPremiumPenSet) return;
     const interval = setInterval(() => {
       setTaskTimer((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(interval);
-  }, [isPremiumPenSet]);
+  }, []);
 
   const handleBuyNow = (e) => {
     e.preventDefault();
@@ -120,15 +119,13 @@ const ProductCard = ({ product }) => {
             </div>
           </div>
 
-          {isPremiumPenSet && (
-            <div
-              id="task1-urgency-timer"
-              className="mb-3 bg-yellow-50 border border-accent rounded-lg px-3 py-2 text-xs font-semibold text-gray-800"
-            >
-              Offer expires in {String(Math.floor(taskTimer / 60)).padStart(2, '0')}:
-              {String(taskTimer % 60).padStart(2, '0')}
-            </div>
-          )}
+          <div
+            id={isPremiumPenSet ? 'task1-urgency-timer' : undefined}
+            className="mb-3 bg-yellow-50 border border-accent rounded-lg px-3 py-2 text-xs font-semibold text-gray-800"
+          >
+            Offer expires in {String(Math.floor(taskTimer / 60)).padStart(2, '0')}:
+            {String(taskTimer % 60).padStart(2, '0')}
+          </div>
 
           {/* Delivery Info */}
           <div className="text-xs text-gray-600 mb-3 flex items-center gap-1">
@@ -138,49 +135,26 @@ const ProductCard = ({ product }) => {
             <span>Free Delivery</span>
           </div>
 
-          {isPremiumPenSet ? (
-            <div className="mt-auto">
-              <button
-                id="task1-buy-now"
-                onClick={handleBuyNow}
-                className="w-full bg-primary-500 hover:bg-primary-600 text-white font-bold py-4 rounded-lg shadow-medium transition-all transform hover:scale-105"
-              >
-                Buy Now
-              </button>
-              <Link
-                id="task1-view-details"
-                to={`/product/${product.id}`}
-                className="mt-2 block text-center text-xs text-gray-400 hover:text-gray-500"
-              >
-                View details
-              </Link>
-            </div>
-          ) : (
+          <div className="mt-auto">
             <button
-              onClick={handleAddToCart}
-              className={`mt-auto w-full font-semibold py-3 rounded-lg transition-all transform active:scale-95 relative overflow-hidden ${
-                showAdded
-                  ? 'bg-green-600 text-white'
-                  : 'bg-primary-500 hover:bg-primary-600 text-white shadow-soft hover:shadow-medium'
+              id={isPremiumPenSet ? 'task1-buy-now' : undefined}
+              onClick={isPremiumPenSet ? handleBuyNow : handleAddToCart}
+              className={`w-full font-bold rounded-lg transition-all transform hover:scale-105 ${
+                isPremiumPenSet
+                  ? 'py-4 bg-primary-500 hover:bg-primary-600 text-white shadow-medium'
+                  : 'py-4 bg-primary-500 hover:bg-primary-600 text-white shadow-medium'
               }`}
             >
-              {showAdded ? (
-                <span className="flex items-center justify-center gap-2 animate-fade-in">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Added to Cart!
-                </span>
-              ) : (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                  Add to Cart
-                </span>
-              )}
+              {showAdded && !isPremiumPenSet ? 'Added to Cart!' : 'Buy Now'}
             </button>
-          )}
+            <Link
+              id={isPremiumPenSet ? 'task1-view-details' : undefined}
+              to={`/product/${product.id}`}
+              className="mt-2 block text-center text-xs text-gray-400 hover:text-gray-500"
+            >
+              View details
+            </Link>
+          </div>
         </div>
       </div>
     </div>
