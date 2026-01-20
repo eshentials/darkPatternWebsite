@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useExperiment } from '../context/ExperimentContext';
 
 const Subscription = () => {
   const navigate = useNavigate();
+  const { setSubscriptionAccepted } = useExperiment();
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -29,14 +31,20 @@ const Subscription = () => {
           <div className="flex flex-col gap-3">
             <button
               id="task3-accept-subscription"
-              onClick={() => navigate('/cancel-membership')}
+              onClick={() => {
+                setSubscriptionAccepted(true);
+                navigate('/cancel-membership');
+              }}
               className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-secondary transition"
             >
               Yes, add Stationery Saver Club
             </button>
             <button
               id="task3-decline-subscription"
-              onClick={() => navigate('/cancel-membership')}
+              onClick={() => {
+                setSubscriptionAccepted(false);
+                navigate('/cancel-membership');
+              }}
               className="w-full text-sm text-gray-500 hover:text-gray-700"
             >
               No, I don't want to save money

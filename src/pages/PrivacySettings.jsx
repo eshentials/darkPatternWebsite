@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useExperiment } from '../context/ExperimentContext';
 
 const PrivacySettings = () => {
   const navigate = useNavigate();
+  const { privacySettings, setPrivacySettings } = useExperiment();
   const [toggles, setToggles] = useState({
-    experience: true,
-    personalization: true,
-    insights: true,
-    partners: true
+    experience: privacySettings.experience,
+    personalization: privacySettings.personalization,
+    insights: privacySettings.insights,
+    partners: privacySettings.partners
   });
   const [cooldown, setCooldown] = useState(0);
 
@@ -108,7 +110,10 @@ const PrivacySettings = () => {
           <div className="pt-4 border-t">
             <button
               id="task5-continue"
-              onClick={() => navigate('/final-confirmation')}
+              onClick={() => {
+                setPrivacySettings(toggles);
+                navigate('/final-confirmation');
+              }}
               disabled={isContinueDisabled}
               className={`w-full py-3 rounded-lg font-semibold transition ${
                 isContinueDisabled

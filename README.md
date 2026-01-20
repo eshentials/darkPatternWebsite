@@ -164,6 +164,14 @@ The built files will be in the `dist` directory.
 
 ## 🧪 Research Notes
 
+## 📊 DPRI Experimental Contract
+
+This project includes a fixed experimental contract for measuring the Dark Pattern Resistance Index (DPRI). The contract defines task order, decision boundaries, manipulative vs resistant outcomes, recovery validity, and coverage checks for each task.
+
+- Ground truth contract: `EXPERIMENT_TASKS.md`
+- Task sequence: T1–T6 in fixed order
+- Decision elements are identified by stable IDs (e.g., `task1-buy-now`, `task5-continue`)
+
 ### Dark Pattern Observations
 
 1. **False Urgency**: Timers reset automatically, creating constant pressure

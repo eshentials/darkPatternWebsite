@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useExperiment } from '../context/ExperimentContext';
 
 const FinalConfirmation = () => {
   const navigate = useNavigate();
   const { cart, getCartTotal, clearCart } = useCart();
+  const { addOns } = useExperiment();
   const [showExitModal, setShowExitModal] = useState(false);
 
   const subtotal = getCartTotal();
+  const addOnTotal = (addOns.engraving ? 6 : 0) + (addOns.refillPack ? 4.5 : 0);
   const shipping = 9.99;
   const handling = 2.5;
-  const total = subtotal + shipping + handling;
+  const total = subtotal + addOnTotal + shipping + handling;
 
   useEffect(() => {
     const handleMouseOut = (event) => {
@@ -55,6 +58,18 @@ const FinalConfirmation = () => {
                     </span>
                   </div>
                 ))}
+                {addOns.engraving && (
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-700">Custom Engraving</span>
+                    <span className="font-semibold text-gray-800">$6.00</span>
+                  </div>
+                )}
+                {addOns.refillPack && (
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-700">Refill Pack (12)</span>
+                    <span className="font-semibold text-gray-800">$4.50</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -63,7 +78,7 @@ const FinalConfirmation = () => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>${(subtotal + addOnTotal).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>

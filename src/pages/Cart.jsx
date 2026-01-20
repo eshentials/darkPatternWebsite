@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useExperiment } from '../context/ExperimentContext';
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
   const navigate = useNavigate();
+  const { addOns: storedAddOns, setAddOns: setStoredAddOns } = useExperiment();
   const [showAddOnModal, setShowAddOnModal] = useState(false);
   const [modalCountdown, setModalCountdown] = useState(5);
   const [userInteracted, setUserInteracted] = useState(false);
-  const [addOns, setAddOns] = useState({
-    engraving: true,
-    refillPack: true
+  const [addOns, setLocalAddOns] = useState({
+    engraving: storedAddOns.engraving,
+    refillPack: storedAddOns.refillPack
   });
 
   const subtotal = getCartTotal();
@@ -22,6 +24,7 @@ const Cart = () => {
       setModalCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(interval);
+          setStoredAddOns(addOns);
           navigate('/checkout');
           return 0;
         }
@@ -29,7 +32,7 @@ const Cart = () => {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [showAddOnModal, userInteracted, navigate]);
+  }, [showAddOnModal, userInteracted, navigate, addOns, setStoredAddOns]);
 
   const handleCheckout = () => {
     setShowAddOnModal(true);
@@ -37,11 +40,12 @@ const Cart = () => {
   };
 
   const handleAddonChange = (key) => {
-    setAddOns((prev) => ({ ...prev, [key]: !prev[key] }));
+    setLocalAddOns((prev) => ({ ...prev, [key]: !prev[key] }));
     setUserInteracted(true);
   };
 
   const handleProceedWithAddons = () => {
+    setStoredAddOns(addOns);
     navigate('/checkout');
   };
 
@@ -105,6 +109,7 @@ const Cart = () => {
 
                         {/* Remove Button */}
                         <button
+                          id={item.name === 'Premium Pen Set' ? 'task1-remove-item' : undefined}
                           onClick={() => removeFromCart(item.id)}
                           className="text-danger hover:text-red-700 font-medium text-sm"
                         >
